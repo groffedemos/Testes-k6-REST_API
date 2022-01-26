@@ -7,7 +7,7 @@ export let options = {
     duration: '10s',
     vus: 50,
     thresholds: {
-        http_req_duration: ['avg < 120']
+        http_req_duration: ['avg < 150']
     }    
 };
 
