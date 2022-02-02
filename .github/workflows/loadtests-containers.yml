@@ -35,7 +35,7 @@ jobs:
         echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
         sudo apt-get update
         sudo apt-get install k6
-
+        k6
         #sudo curl https://github.com/grafana/k6/releases/download/v0.36.0/k6-v0.36.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
         #npm install
         #./k6
