@@ -37,10 +37,10 @@ jobs:
         sudo apt-get install k6
         k6
     - name: Executar testes de carga com k6
-      run: |
-        k6 run ${{ env.TEST_SCRIPTS }}
-        echo "*** Gerado arquivo com resultado dos testes***"
-        ls
+      run: k6 run ${{ env.TEST_SCRIPTS }}
+    - name: Listar arquivo gerado após execução dos testes
+      run: ls
+      if: always()
     - name: Login no Docker Hub
       uses: docker/login-action@v1.10.0
       with:
