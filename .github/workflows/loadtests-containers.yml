@@ -31,7 +31,7 @@ jobs:
         docker container ls
     - name: Instalar o k6
       run: |
-        curl https://github.com/grafana/k6/releases/download/v0.35.0/k6-v0.35.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
+        sudo curl https://github.com/grafana/k6/releases/download/v0.35.0/k6-v0.35.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
         npm install
         ./k6
     - name: Executar testes de carga com k6
