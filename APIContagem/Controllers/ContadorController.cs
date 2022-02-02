@@ -32,7 +32,7 @@ public class ContadorController : ControllerBase
 
         // FIXME: Simulando um problema de performance para execução
         // de testes de carga
-        Thread.Sleep(100);
+        //Thread.Sleep(100);
 
         _logger.LogValorAtual(valorAtualContador);
         
