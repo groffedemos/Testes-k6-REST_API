@@ -29,9 +29,6 @@ jobs:
       run: |
         docker run --name apitestes -p 5000:80 -d ${{ env.IMAGEM_DOCKERHUB }}:latest
         docker container ls
-    - run: |
-        docker container ls
-        curl http://localhost:5000/contador
     - name: Instalar o k6
       run: |
         sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
@@ -39,6 +36,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install k6
         k6
+    - run: |
+        docker container ls
+        curl http://localhost:5000/contador
     - name: Executar testes de carga com k6
       run: |
         k6 run ${{ env.TEST_SCRIPTS }}
