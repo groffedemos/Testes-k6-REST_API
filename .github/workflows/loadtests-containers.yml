@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  IMAGEM_DOCKERHUB: ${{ secrets.DOCKERHUB_USERNAME }}/apicontagem-threshold-k6
+  IMAGE_DOCKERHUB: ${{ secrets.DOCKERHUB_USERNAME }}/apicontagem-threshold-k6
   ASPNETCORE_URLS: 'http://localhost:5000'
   DIR_WEBAPP: './APIContagem'
   DIR_TESTS: './Tests'
@@ -25,10 +25,10 @@ jobs:
     - name: Build de imagem
       run: |
         cd ${{ env.DIR_WEBAPP }}
-        docker build . --file Dockerfile --tag ${{ env.IMAGEM_DOCKERHUB }}:latest      
+        docker build . --file Dockerfile --tag ${{ env.IMAGE_DOCKERHUB }}:latest      
     - name: Criar container para testes
       run: |
-        docker run --name apitestes -p 5000:80 -d ${{ env.IMAGEM_DOCKERHUB }}:latest
+        docker run --name apitestes -p 5000:80 -d ${{ env.IMAGE_DOCKERHUB }}:latest
         docker container ls
     - name: Instalar o k6
       run: |
@@ -56,5 +56,21 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     - name: Geração de tag com número do Build e Push no Docker Hub
       run: |
-        docker tag ${{ env.IMAGEM_DOCKERHUB }}:latest ${{ env.IMAGEM_DOCKERHUB }}:$GITHUB_RUN_NUMBER
-        docker push --all-tags ${{ env.IMAGEM_DOCKERHUB }}
+        docker tag ${{ env.IMAGE_DOCKERHUB }}:latest ${{ env.IMAGE_DOCKERHUB }}:$GITHUB_RUN_NUMBER
+        docker push --all-tags ${{ env.IMAGE_DOCKERHUB }}
+
+  deployment:
+    needs: [build-tests-push]
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Azure Login - Conectando com Credenciais no Azure
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure WebApp - Deployment da Aplicacao
+      uses: Azure/webapps-deploy@v2.2.3
+      with:
+        app-name: ${{ env.NOME_WEBAPP }}
+        images: '${{ env.IMAGE_DOCKERHUB }}:${{ github.run_number }}'
