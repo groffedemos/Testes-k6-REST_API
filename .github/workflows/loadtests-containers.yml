@@ -36,12 +36,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install k6
         k6
-        #sudo curl https://github.com/grafana/k6/releases/download/v0.36.0/k6-v0.36.0-linux-amd64.tar.gz -L | tar xvz --strip-components 1
-        #npm install
-        #./k6
     - name: Executar testes de carga com k6
       run: |
-        ./k6 run ${{ env.TEST_SCRIPTS }}
+        k6 run ${{ env.TEST_SCRIPTS }}
     - name: Login no Docker Hub
       uses: docker/login-action@v1.10.0
       with:
