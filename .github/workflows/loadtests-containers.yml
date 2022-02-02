@@ -11,7 +11,7 @@ env:
   ASPNETCORE_URLS: 'http://localhost:5000'
   DIR_WEBAPP: './APIContagem'
   DIR_TESTS: './Tests'
-  TEST_SCRIPTS: './Tests/tests-apicontagem.js'
+  TEST_SCRIPTS: './Tests/tests-apicontagem-report.js'
   
 jobs:
 
@@ -36,16 +36,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install k6
         k6
-    - run: |
-        docker container ls
-        curl http://localhost:5000/contador
     - name: Executar testes de carga com k6
       run: |
         k6 run ${{ env.TEST_SCRIPTS }}
-    - run: |
-        docker container ls
-        curl http://localhost:5000/contador
-      if: always()
+        echo "*** Gerado arquivo com resultado dos testes***"
+        ls
     - name: Login no Docker Hub
       uses: docker/login-action@v1.10.0
       with:
