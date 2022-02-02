@@ -13,6 +13,7 @@ env:
   DIR_TESTS: './Tests'
   TEST_SCRIPTS: './Tests/tests-apicontagem-report.js'
   PATH_REPORT_TESTS: './apicontagem-loadtests.html'
+  WEBAPP_NAME: 'groffeapicontagem'
   
 jobs:
 
@@ -72,5 +73,5 @@ jobs:
     - name: Azure WebApp - Deployment da Aplicacao
       uses: Azure/webapps-deploy@v2.2.3
       with:
-        app-name: ${{ env.NOME_WEBAPP }}
+        app-name: ${{ env.WEBAPP_NAME }}
         images: '${{ env.IMAGE_DOCKERHUB }}:${{ github.run_number }}'
