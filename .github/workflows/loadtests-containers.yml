@@ -12,6 +12,7 @@ env:
   DIR_WEBAPP: './APIContagem'
   DIR_TESTS: './Tests'
   TEST_SCRIPTS: './Tests/tests-apicontagem-report.js'
+  PATH_REPORT_TESTS: './tests-apicontagem-report.js'
   
 jobs:
 
@@ -39,16 +40,14 @@ jobs:
     - name: Executar testes de carga com k6
       run: k6 run ${{ env.TEST_SCRIPTS }}
     - name: Listar arquivo gerado após execução dos testes
-      run: ls
       if: always()
+      run: ls
     - name: Upload do Report de Testes como Artifact
       uses: actions/upload-artifact@v2.3.1
       if: always()
-      env:
-        CAMINHO_RELATORIO_TESTES: ${{ env.CAMINHO_PROJETO_TESTES }}/TestResults/resultado-testes.html
       with:
         name: resultado-execucao-testes
-        path: ${{ env.CAMINHO_RELATORIO_TESTES }}
+        path: ${{ env.PATH_REPORT_TESTS }}
         retention-days: 30
     - name: Login no Docker Hub
       uses: docker/login-action@v1.12.0
