@@ -12,7 +12,7 @@ env:
   DIR_WEBAPP: './APIContagem'
   DIR_TESTS: './Tests'
   TEST_SCRIPTS: './Tests/tests-apicontagem-report.js'
-  PATH_REPORT_TESTS: './tests-apicontagem-report.js'
+  PATH_REPORT_TESTS: './apicontagem-loadtests.html'
   
 jobs:
 
